@@ -1,0 +1,3 @@
+/Users/phillipmiller/GitHub/BasicDenseMatrixCPP/CMakeFiles/rebuild_cache.dir
+/Users/phillipmiller/GitHub/BasicDenseMatrixCPP/CMakeFiles/edit_cache.dir
+/Users/phillipmiller/GitHub/BasicDenseMatrixCPP/CMakeFiles/CPPDenseMatrix.dir
