@@ -60,5 +60,10 @@ int main(int argc, char const *argv[])
     cout << "Matrix A .* 2" << endl;
     C.print();
 
+    // Transpose
+    C = A3.Transpose();
+    cout << "A transpose" << endl;
+    C.print();
+    
     return 0;
 }

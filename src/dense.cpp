@@ -82,6 +82,22 @@ Dense Dense::Scale(float B){
     return DenseOut;
 }
 
+Dense Dense::Transpose(){
+    vector<float> newData;
+    for (int col = 0; col < width; col++){
+        for(int row = 0; row < height; row++) {
+            int addr = GetAddress(row,col);
+            newData.push_back(data.at(addr));
+        }
+    }
+    Dense denseOut(width,height,newData);
+    return denseOut;
+}
+int Dense::GetAddress(int row, int col){
+    int addr = row*width + col; 
+    return addr;
+}
+
 Dense Dense::Dot(Dense B){
     // Check if opperation can be executed
     if (width==B.width && height==B.height){
