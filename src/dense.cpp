@@ -3,19 +3,25 @@
 #include <vector>
 #include <iostream>
 #include "dense.h"
+#include <random>
 
 using namespace std;
 
 
 // Constructor
-Dense::Dense(int heightIn, int widthIn, vector<float> dataIn){
+Dense::Dense(int heightIn, int widthIn, vector<float> dataIn = {}){
     width = widthIn;
     height = heightIn;
     // Check size of data 
     if(dataIn.size()!=(widthIn * heightIn)){
         cerr << "Width/Height Mismatch" << endl;
     }else{
-        data = dataIn; 
+        if (dataIn.empty()){
+            vector<float> defaultData(heightIn*widthIn);
+            data = defaultData; 
+        }else{
+            data = dataIn; 
+        }   
     }
 }
 void Dense::print(){
@@ -97,7 +103,44 @@ int Dense::GetAddress(int row, int col){
     int addr = row*width + col; 
     return addr;
 }
+Dense Dense::EigenVector(int n){
+    // Calculates Eigen Vector using Power methods
+    vector<float> newData(width);
+    generate(newData.begin(),newData.end(),[](){return (float)rand() / RAND_MAX;});
+    Dense b_k(width,1,newData);
+    Dense Ab(0,0,{}); 
+    for (int i = 0; i < n; i++){
+        Ab = Mult(b_k);
+        b_k = Ab.Normalize();
+    }
+    for (int i = 0; i < b_k.data.size(); i++){
+        Dense Ab_ = Scale(b_k.data.at(i));
+    }
+    Ab = Mult(b_k);
+    return Ab;
+}
+Dense Dense::Eye(int m){
+    Dense IdentityMatrix(m,m);
+    vector<float> eyeData;
+    for (int i = 0; i < m; i++){
+        IdentityMatrix.Set(i,i,1.0);
+    }
+    return IdentityMatrix;
+}
+void Dense::Set(int row, int col, float dataIn){
+    int addr = GetAddress(row,col);
+    data[addr] = dataIn;
+}
 
+Dense Dense::Normalize(){
+    float sum = 0;
+    for (int i = 0; i < data.size(); i++){
+        sum += data.at(i)*data.at(i);
+    }
+    float NormFactor = 1 / sqrt(sum);
+    Dense NormedMat = Scale(NormFactor);
+    return NormedMat; 
+}
 Dense Dense::Dot(Dense B){
     // Check if opperation can be executed
     if (width==B.width && height==B.height){

@@ -18,6 +18,10 @@ class Dense
         Dense Dot(Dense B);
         Dense Scale(float B);
         Dense Transpose();
+        Dense EigenVector(int nItterations);
+        Dense Normalize();
+        Dense Eye(int m);
+        void Set(int row, int col, float dataIn);
         int GetAddress(int row,int col);
         void print();
 };

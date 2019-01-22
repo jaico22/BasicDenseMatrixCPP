@@ -64,6 +64,11 @@ int main(int argc, char const *argv[])
     C = A3.Transpose();
     cout << "A transpose" << endl;
     C.print();
-    
+
+    A = Dense(2,2,{6,-1,2,3});
+    A.print();
+    C = A.EigenVector(100);
+    C.print();
+
     return 0;
 }
